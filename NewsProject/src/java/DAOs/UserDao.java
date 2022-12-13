@@ -10,12 +10,86 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class UserDao {
+
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
-    
-    public UserModel LoginDao(String userName, String password){
+
+    public UserModel LoginDao(String userName, String password) {
         String query = "";
         return null;
     }
+
+    public UserModel login(String username, String pass) {
+        String query = "Select * from [User] where username = ? and [password] = ? ";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setString(2, pass);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new UserModel(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getBoolean(7));
+            }
+        } catch (Exception e) {
+            System.out.println("Connection error! " + e);
+        }
+        return null;
+    }
+
+    public boolean getRole(String username) {
+        String query = "Select role from [User] where username = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setBoolean(1, true);
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getBoolean(1);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return false;
+    }
+
+    public boolean findUserByUsername(String userName) {
+        String query = "select * from [User] where username = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, userName);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+            return false;
+        }
+    }
+
+    public boolean registerUser(UserModel user) {
+        String query = "Insert into [User](first_name, last_name, email, username, password)"
+                + "values(?,?,?,?,?)";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, user.getFirst_name());
+            ps.setString(2, user.getLast_name());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getUsername());
+            ps.setString(5, user.getPassword());
+            ps.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+            return false;
+        }
+    }
+
+
 }

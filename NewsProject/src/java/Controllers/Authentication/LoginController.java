@@ -4,6 +4,8 @@
  */
 package Controllers.Authentication;
 
+import DAOs.UserDao;
+import Models.UserModel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet(name = "LoginController", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
@@ -32,7 +35,7 @@ public class LoginController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginController</title>");            
+            out.println("<title>Servlet LoginController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
@@ -53,7 +56,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
     /**
@@ -67,7 +70,26 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        String username = request.getParameter("log_username");
+        String pass = request.getParameter("log_password");
+        UserDao dao = new UserDao();
+        UserModel a = dao.login(username, pass);
+
+        if (a == null) {
+            request.setAttribute("errMsg", "*Sai tài khoản hoặc mật khẩu!");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        } else {
+            boolean checkRole = a.isRole();
+            if (checkRole) {
+                session.setAttribute("acc", a);
+                request.getRequestDispatcher("home.jsp").forward(request, response);
+            }else{
+                session.setAttribute("acc", a);
+                request.getRequestDispatcher("home.jsp").forward(request, response);
+            }
+
+        }
     }
 
     /**

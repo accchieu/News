@@ -4,6 +4,7 @@
  */
 package Models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -16,14 +17,14 @@ public class NewsModel {
     private String title;
     private String description;
     private String image;
-    private LocalDateTime createDate;
+    private LocalDate createDate;
     private String createUser;
-    private LocalDateTime updateDate;
+    private LocalDate updateDate;
 
     public NewsModel() {
     }
 
-    public NewsModel(int id, int cateId, String title, String description, String image, LocalDateTime createDate, String createUser, LocalDateTime updateDate) {
+    public NewsModel(int id, int cateId, String title, String description, String image, LocalDate createDate, String createUser, LocalDate updateDate) {
         this.id = id;
         this.cateId = cateId;
         this.title = title;
@@ -74,11 +75,11 @@ public class NewsModel {
         this.image = image;
     }
 
-    public LocalDateTime getCreateDate() {
+    public LocalDate getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(LocalDate createDate) {
         this.createDate = createDate;
     }
 
@@ -90,13 +91,15 @@ public class NewsModel {
         this.createUser = createUser;
     }
 
-    public LocalDateTime getUpdateDate() {
+    public LocalDate getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(LocalDate updateDate) {
         this.updateDate = updateDate;
     }
+
+    
     
     
 }

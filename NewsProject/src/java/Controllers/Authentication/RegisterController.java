@@ -4,6 +4,8 @@
  */
 package Controllers.Authentication;
 
+import DAOs.UserDao;
+import Models.UserModel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -32,7 +34,7 @@ public class RegisterController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegisterController</title>");            
+            out.println("<title>Servlet RegisterController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet RegisterController at " + request.getContextPath() + "</h1>");
@@ -53,7 +55,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
     /**
@@ -67,7 +69,35 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        String firstname = request.getParameter("reg_firstname");
+        String lastname = request.getParameter("reg_lastname");
+        String email = request.getParameter("reg_email");
+        String username = request.getParameter("reg_username");
+        String password = request.getParameter("reg_password");
+        try {
+            UserDao dao = new UserDao();
+            boolean checkUsr = dao.findUserByUsername(username);
+
+            if (checkUsr) {
+                request.setAttribute("regError", "Tên đăng nhập đã tồn tại!");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }
+            UserModel user = new UserModel(0, firstname, lastname, email, username, password, false);
+            boolean checkReg = dao.registerUser(user);
+            if (checkReg) {
+                request.setAttribute("errMsg", "Đăng kí thành công!");
+            } else {
+                request.setAttribute("regError", "Đăng kí không thành công!");
+            }
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
     }
 
     /**
