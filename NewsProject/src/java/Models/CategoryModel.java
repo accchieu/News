@@ -6,7 +6,7 @@ package Models;
 
 /**
  *
- * @author hongd
+ * @author vuhai
  */
 public class CategoryModel {
     private int id;

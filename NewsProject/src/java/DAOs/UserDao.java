@@ -15,10 +15,7 @@ public class UserDao {
     PreparedStatement ps = null;
     ResultSet rs = null;
 
-    public UserModel LoginDao(String userName, String password) {
-        String query = "";
-        return null;
-    }
+    
 
     public UserModel login(String username, String pass) {
         String query = "Select * from [User] where username = ? and [password] = ? ";
@@ -90,6 +87,58 @@ public class UserDao {
             return false;
         }
     }
+    
+    public boolean checkAccount(String email, String username) {
+        String query = "Select * from [User] where email = ? and [username] = ? ";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, email);
+            ps.setString(2, username);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("check error! " + e);
+        }
+        return false;
+    }
+    
+    public void updatePass(String username, String newpass) {
+        try {
+            String strupdate="update [User] set [password]=? "
+                    + "where account=?";
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(strupdate);
+            ps.setString(1, newpass);
+            ps.setString(2, username);
+            ps.executeUpdate();
+            
+        } catch (Exception e) {
+            System.out.println("updatePass fail:"+e.getMessage());
+        }
+    }
 
 
 }
+
+
+//protected void doPost(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//        String email = request.getParameter("email");
+//        String username = request.getParameter("username");
+//        UserDao u = new UserDao();
+//        if (u.checkAccount(email, username)) {
+//
+//            String newpass = getAlphaNumericString(10);
+//            u.updatePass(username, newpass);
+//
+//            request.setAttribute("newpass", newpass);
+//        }
+//        request.setAttribute("email", email);
+//        request.setAttribute("username", username);
+//
+//        request.getRequestDispatcher("resetPass.jsp").forward(request, response);
+//
+//    }

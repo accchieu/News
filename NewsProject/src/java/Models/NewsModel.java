@@ -5,11 +5,10 @@
 package Models;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  *
- * @author hongd
+ * @author vuhai
  */
 public class NewsModel {
     private int id;

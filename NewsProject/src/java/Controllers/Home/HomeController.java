@@ -4,6 +4,10 @@
  */
 package Controllers.Home;
 
+import DAOs.CategoryDao;
+import DAOs.NewsPostDao;
+import Models.CategoryModel;
+import Models.NewsModel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +15,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "HomeController", urlPatterns = {"/home"})
 public class HomeController extends HttpServlet {
@@ -54,6 +60,13 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        CategoryDao categoryDao = new CategoryDao();
+        List<CategoryModel> categories = categoryDao.getAll();
+        NewsPostDao newsPostDao = new NewsPostDao();
+        List<NewsModel> posts = newsPostDao.getAll();
+        
+        request.setAttribute("posts", posts);
+        request.setAttribute("categories", categories);
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
@@ -68,7 +81,13 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        List<NewsModel> list = new ArrayList<>();
+        NewsPostDao n = new NewsPostDao();
+        list = n.getAll();
+        request.setAttribute("list", list);
+        request.getRequestDispatcher("test.jsp").forward(request, response);
+        
     }
 
     /**
@@ -82,3 +101,11 @@ public class HomeController extends HttpServlet {
     }// </editor-fold>
 
 }
+
+//
+//<c:if test="${sessionScope.acc != null}">
+//                    <a href="#">Xin chào, ${acc.username}</a>
+//                </c:if>
+//<c:forEach items="${categories}" var="category">
+//                    <a href="<c:url value="/searchbycate?cate=${category.id}"></c:url>">${category.categoryName}</a>
+//                </c:forEach>

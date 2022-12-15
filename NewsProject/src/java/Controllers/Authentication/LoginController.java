@@ -9,13 +9,13 @@ import Models.UserModel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet(name = "LoginController", urlPatterns = {"/login"})
+
+
 public class LoginController extends HttpServlet {
 
     /**
@@ -56,6 +56,8 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
@@ -83,13 +85,14 @@ public class LoginController extends HttpServlet {
             boolean checkRole = a.isRole();
             if (checkRole) {
                 session.setAttribute("acc", a);
-                request.getRequestDispatcher("home.jsp").forward(request, response);
-            }else{
+                response.sendRedirect("admin-home");
+            } else {
                 session.setAttribute("acc", a);
-                request.getRequestDispatcher("home.jsp").forward(request, response);
+                response.sendRedirect("home");
             }
 
         }
+
     }
 
     /**

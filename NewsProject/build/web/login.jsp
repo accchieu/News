@@ -13,10 +13,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="./css/login.css">
 
-    <title>GVN360</title>
+    <title>GVN360 - Authen</title>
 </head>
 
 <body>
@@ -47,6 +47,9 @@
                                     <div class="form-group">
                                         <input type="password" name="log_password" id="password" tabindex="2"
                                             class="form-control" placeholder="Mật khẩu">
+                                    </div>
+                                    <div> 
+                                        <a href="resetPass.jsp">Reset password</a>
                                     </div>
                                     <div class="form-group">
                                         <c:if test="${errMsg != null}">

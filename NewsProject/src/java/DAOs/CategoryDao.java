@@ -18,7 +18,7 @@ public class CategoryDao {
     PreparedStatement ps = null;
     ResultSet rs = null;
 
-    public List<CategoryModel> GetAll(){
+    public List<CategoryModel> getAll(){
         List<CategoryModel> categories = new ArrayList<>();
         String query = "Select * from Category";
         try {

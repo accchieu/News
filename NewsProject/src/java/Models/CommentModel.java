@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 /**
  *
- * @author hongd
+ * @author vuhai
  */
 public class CommentModel {
     private int id;
