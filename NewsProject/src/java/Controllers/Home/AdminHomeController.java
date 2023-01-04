@@ -58,14 +58,7 @@ public class AdminHomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        UserModel user = (UserModel) session.getAttribute("acc");
-        NewsPostDao newsPostDao = new NewsPostDao();
         
-        
-        List<NewsModel> posts = newsPostDao.getUserNews(user.getUsername());
-        
-        request.setAttribute("posts", posts);
         request.getRequestDispatcher("admin-home.jsp").forward(request, response);
     }
 

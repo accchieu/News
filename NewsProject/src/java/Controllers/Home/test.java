@@ -4,10 +4,6 @@
  */
 package Controllers.Home;
 
-import DAOs.CategoryDao;
-import DAOs.NewsPostDao;
-import Models.CategoryModel;
-import Models.NewsModel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,11 +11,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
 
-@WebServlet(name = "AdminDeletePostController", urlPatterns = {"/admin-post-delete"})
-public class AdminDeletePostController extends HttpServlet {
+/**
+ *
+ * @author vuhai
+ */
+@WebServlet(name = "test", urlPatterns = {"/test"})
+public class test extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +36,10 @@ public class AdminDeletePostController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeController</title>");
+            out.println("<title>Servlet test</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomeController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet test at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,16 +57,7 @@ public class AdminDeletePostController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String idRaw = request.getParameter("post_id");
-        try {
-            int postId = Integer.parseInt(idRaw);
-            NewsPostDao newsPostDao = new NewsPostDao();
-            newsPostDao.deleteNews(postId);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        response.sendRedirect("admin-home");
+        processRequest(request, response);
     }
 
     /**
@@ -82,13 +71,7 @@ public class AdminDeletePostController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        List<NewsModel> list = new ArrayList<>();
-        NewsPostDao n = new NewsPostDao();
-        list = n.getAll();
-        request.setAttribute("list", list);
-        request.getRequestDispatcher("test.jsp").forward(request, response);
-
+        processRequest(request, response);
     }
 
     /**

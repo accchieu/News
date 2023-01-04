@@ -18,6 +18,7 @@
        
         
                         <form action="addnew" method="post">
+                            
                                 <p>Tên bài viết</p>
                                 <input type="text" name="post_title">
                                 <p>Danh mục</p>
@@ -26,7 +27,7 @@
                                 <input type="text" name="post_link">
                                 <p>Nội dung bài viết</p>
                                 <input type="text" name="descrip"/><br>
-                                <input type="button" value="luu">
+                                <input type="submit" name="save"/>
                         </form>
         
         
